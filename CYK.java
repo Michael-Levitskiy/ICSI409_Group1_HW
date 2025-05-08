@@ -11,12 +11,20 @@ public class CYK {
         rulesInput(scanner);
         stringInput(scanner);
         scanner.close();
+
+        if (CYK_Algorithm()){
+            System.out.println("\nThe string '" + input + "' IS in the language!");
+        }
+        else{
+            System.out.println("\nThe string '" + input + "' is NOT in the language!");
+        }
+        
     }
 
     public static void rulesInput(Scanner scanner) {
         System.out.println("Input the grammar in CNF (Chomsky Normal Form)");
         System.out.println("1) Each rule should be entered with the LHS and RHS separated by \" -> \"");
-        System.out.println("2) Use e instead ε to represent the empty string");
+        System.out.println("2) Use 'e' as epsilon to represent the empty string");
         System.out.println("3) Enter \"done\" to finalize the grammar");
         System.out.println();
 
@@ -94,7 +102,7 @@ public class CYK {
     }
 
     public static void stringInput(Scanner scanner) {
-        System.out.print("Input string to test: ");
+        System.out.print("\nInput string to test: ");
         input = scanner.nextLine();
     }
 
