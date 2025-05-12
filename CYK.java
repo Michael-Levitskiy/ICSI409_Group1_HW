@@ -91,12 +91,17 @@ public class CYK {
     }
 
     private static boolean isValidRHS(String RHS, String LHS) {
+        // Case 1: RHS is the empty string ("e")
         if (RHS.equals("e")) {
             return LHS.equals(startingSymbol);
         }
+
+        // Case 2: RHS is a single terminal (not uppercase)
         if (RHS.length() == 1 && !Character.isUpperCase(RHS.charAt(0))) {
             return true;
         }
+
+        // Case 3: RHS must be two non-terminals
         Pattern pattern = Pattern.compile("^([A-Z]\\d*)([A-Z]\\d*)$");
         Matcher matcher = pattern.matcher(RHS);
         if (matcher.matches()) {
@@ -112,27 +117,31 @@ public class CYK {
         input = scanner.nextLine();
     }
 
+    /**
+     * Method to run the CYK Algorithm
+     * @return
+     */
     public static boolean CYK_Algorithm() {
         int length = input.length();
-        Set<String>[][] CYB_Box = new HashSet[length][length];
+        Set<String>[][] CYK_Box = new HashSet[length][length];
         for (int i = 0; i < length; i++) {
             String letter = String.valueOf(input.charAt(i));
-            CYB_Box[i][i] = getKeys(letter);
+            CYK_Box[i][i] = getKeys(letter);
         }
         for (int i = 1; i < length; i++) {
             int row = i;
             int col = 0;
             while (row < length && col < length) {
-                CYB_Box[col][row] = new HashSet<>();
+                CYK_Box[col][row] = new HashSet<>();
                 for (int k = col; k < row; k++) {
-                    Set<String> leftSet = CYB_Box[col][k];
-                    Set<String> rightSet = CYB_Box[k + 1][row];
+                    Set<String> leftSet = CYK_Box[col][k];
+                    Set<String> rightSet = CYK_Box[k + 1][row];
                     if (leftSet == null || rightSet == null) continue;
                     for (String A : leftSet) {
                         for (String B : rightSet) {
                             String combined = A + B;
                             Set<String> possibleNonTerminals = getKeys(combined);
-                            CYB_Box[col][row].addAll(possibleNonTerminals);
+                            CYK_Box[col][row].addAll(possibleNonTerminals);
                         }
                     }
                 }
@@ -140,9 +149,14 @@ public class CYK {
                 col++;
             }
         }
-        return CYB_Box[0][length - 1] != null && CYB_Box[0][length - 1].contains(startingSymbol);
+        return CYK_Box[0][length - 1] != null && CYK_Box[0][length - 1].contains(startingSymbol);
     }
 
+    /**
+     * Helper method to get all of the keys for a specific value in an array
+     * @param value (String) - to find keys for
+     * @return an array of all of the strings
+     */
     private static Set<String> getKeys(String value) {
         Set<String> keys = new HashSet<>();
         for (Map.Entry<String, Set<String>> entry : Production_Rules.entrySet()) {
