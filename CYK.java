@@ -7,6 +7,12 @@ public class CYK {
     public static String startingSymbol = null;
     public static HashMap<String, Set<String>> Production_Rules = new HashMap<>();
 
+    /**
+     * Main method to execute the CYK algorithm.
+     * Prompts for a grammar file and input string, processes the grammar,
+     * and determines if the string belongs to the language.
+     * @param args Command-line arguments (not used)
+     */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -17,7 +23,7 @@ public class CYK {
         System.out.print("Enter the filename: ");
         String filename = scanner.nextLine();
 
-        // Read the grammar from the file
+        // Read the grammar from the provided file
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             rulesInput(reader);
         } catch (FileNotFoundException e) {
@@ -37,7 +43,7 @@ public class CYK {
             System.out.println(lhs + " -> " + rhs);
         }
 
-        // Continue with console input for the string and run the algorithm
+        // Console input for the string
         stringInput(scanner);
         scanner.close();
 
@@ -48,6 +54,13 @@ public class CYK {
         }
     }
 
+    /**
+     * Reads and processes grammar rules from a file.
+     * Each rule is expected in the format 'LHS -> RHS' and is validated for CNF.
+     * Populates the Production_Rules map with valid rules.
+     * @param reader BufferedReader for reading the grammar file
+     * @throws IOException If an error occurs while reading the file
+     */
     public static void rulesInput(BufferedReader reader) throws IOException {
         boolean firstRule = true;
         String line;
@@ -65,21 +78,25 @@ public class CYK {
             String LHS = parts[0].trim();
             String RHS = parts[1].trim();
 
+            // Check LHS
             if (!isNonTerminal(LHS)) {
                 System.out.println("LHS must be a non-terminal: " + LHS);
                 continue;
             }
 
+            // Set the starting symbol
             if (firstRule) {
                 startingSymbol = LHS;
                 firstRule = false;
             }
 
+            // Check RHS
             if (!isValidRHS(RHS, LHS)) {
                 System.out.println("Invalid RHS: " + RHS);
                 continue;
             }
 
+            // Add the rule to production rules
             if (!Production_Rules.containsKey(LHS)) {
                 Production_Rules.put(LHS, new HashSet<>());
             }
@@ -87,10 +104,23 @@ public class CYK {
         }
     }
 
+    /**
+     * Checks if a string represents a valid non-terminal.
+     * A non-terminal is an uppercase letter followed by optional digits.
+     * @param s String to check
+     * @return true if the string is a valid non-terminal, false otherwise
+     */
     private static boolean isNonTerminal(String s) {
         return s.matches("[A-Z]\\d*");
     }
 
+    /**
+     * Validates the right-hand side (RHS) of a grammar rule for CNF.
+     * RHS must be a terminal, two non-terminals, or epsilon (for the starting symbol).
+     * @param RHS Right-hand side of the rule
+     * @param LHS Left-hand side of the rule
+     * @return true if the RHS is valid, false otherwise
+     */
     private static boolean isValidRHS(String RHS, String LHS) {
         // Case 1: RHS is the empty string ("e")
         if (RHS.equals("e")) {
@@ -113,6 +143,11 @@ public class CYK {
         return false;
     }
 
+    /**
+     * Prompts the user to input a string to test against the grammar.
+     * Stores the input string in the global 'input' variable.
+     * @param scanner Scanner for reading console input
+     */
     public static void stringInput(Scanner scanner) {
         System.out.print("\nInput string to test: ");
         input = scanner.nextLine();
@@ -120,9 +155,14 @@ public class CYK {
 
     /**
      * Method to run the CYK Algorithm
-     * @return
+     * @return true if the string is in the language, false otherwise
      */
     public static boolean CYK_Algorithm() {
+        // Handle empty string case
+        if (input.isEmpty()) {
+            return Production_Rules.getOrDefault(startingSymbol, new HashSet<>()).contains("e");
+        }
+
         int length = input.length();
         Set<String>[][] CYK_Box = new HashSet[length][length];
         for (int i = 0; i < length; i++) {
