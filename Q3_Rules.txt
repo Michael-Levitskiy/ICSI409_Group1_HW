@@ -1,5 +1,5 @@
 S -> X1C
-S -> XaC
+S -> X2C
 S -> AB
 S -> DH
 S -> #
@@ -13,7 +13,7 @@ S -> Z4Y
 S -> CH
 S -> e
 B -> Z1W
-B -> ZaY
+B -> Z2Y
 B -> a
 B -> b
 B1 -> Z3W
