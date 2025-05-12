@@ -1,0 +1,17 @@
+S -> AC
+S -> A1C1
+S -> e
+A -> Z1Z2
+C -> CX1
+Z1 -> AX2
+Z2 -> BX3
+X1 -> c
+X2 -> c
+X3 -> b
+C1 -> W1W2
+A1 -> A1Y1
+W1 -> BY2
+W2 -> CY3
+Y1 -> a
+Y2 -> b
+Y3 -> c
