@@ -34,15 +34,6 @@ public class CYK {
             return;
         }
 
-        // Print the grammar stored in Production_Rules
-        System.out.println("\nGrammar Rules:");
-        for (Map.Entry<String, Set<String>> entry : Production_Rules.entrySet()) {
-            String lhs = entry.getKey();
-            Set<String> rhsSet = entry.getValue();
-            String rhs = String.join(" | ", rhsSet);
-            System.out.println(lhs + " -> " + rhs);
-        }
-
         // Console input for the string
         stringInput(scanner);
         scanner.close();
@@ -164,20 +155,30 @@ public class CYK {
         }
 
         int length = input.length();
-        Set<String>[][] CYK_Box = new HashSet[length][length];
+        Set<String>[][] CYK_Box = new HashSet[length][length];  // initialize the table
+
+        // fill the diagonal of the table (all non-terminals that produce the given terminal)
         for (int i = 0; i < length; i++) {
             String letter = String.valueOf(input.charAt(i));
             CYK_Box[i][i] = getKeys(letter);
         }
+
+        // fill the triangle with the correct non-terminal productions
         for (int i = 1; i < length; i++) {
             int row = i;
             int col = 0;
+
+            // move diagonally across the table
             while (row < length && col < length) {
                 CYK_Box[col][row] = new HashSet<>();
+
+                // split the input at different positions
                 for (int k = col; k < row; k++) {
                     Set<String> leftSet = CYK_Box[col][k];
                     Set<String> rightSet = CYK_Box[k + 1][row];
                     if (leftSet == null || rightSet == null) continue;
+                    
+                    // loops for every non-terminal pair combination
                     for (String A : leftSet) {
                         for (String B : rightSet) {
                             String combined = A + B;

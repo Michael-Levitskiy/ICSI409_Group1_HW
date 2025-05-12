@@ -37,7 +37,7 @@ public class TestCYK {
             CYK.startingSymbol = null;
             boolean first = true;
             for (var r : c.rules) {
-                var parts = r.split("->");
+                var parts = r.split("\\s*->\\s*");
                 String L = parts[0].trim();
                 String R = parts[1].trim();
                 if (first) {
