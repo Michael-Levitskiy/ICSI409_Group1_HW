@@ -1,7 +1,7 @@
 S0 -> AB
 S0 -> AS1
-S1 -> A1B
-A1 -> AS1
-A1 -> AB
+S1-> A1B
+A1 -> A
+A1 ->AB
 A -> a
 B -> *

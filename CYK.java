@@ -55,7 +55,8 @@ public class CYK {
             line = line.trim();
             if (line.isEmpty()) continue; // Skip empty lines
 
-            String[] parts = line.split(" -> ");
+            // Split on "->" with optional whitespace around it
+            String[] parts = line.split("\\s*->\\s*");
             if (parts.length != 2) {
                 System.out.println("Invalid rule format: " + line);
                 continue;
