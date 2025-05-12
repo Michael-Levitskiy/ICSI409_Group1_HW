@@ -24,8 +24,9 @@ public class TestCYK {
       		new Case(readRulesFromFile("Q3_Rules.txt"), "aba#ab#bb", false),
       		new Case(readRulesFromFile("Q3_Rules.txt"), "abba#abba", true),
 			new Case(readRulesFromFile("Q3_Rules.txt"), "ab#ab#bbba", false),
-      		new Case(readRulesFromFile("Q4_Rules.txt"), "0", true),
-      		new Case(readRulesFromFile("Q4_Rules.txt"), "0000", true)
+      		new Case(readRulesFromFile("Q4_Rules.txt"), "#", true),
+      		new Case(readRulesFromFile("Q4_Rules.txt"), "0000", false),
+			new Case(readRulesFromFile("Q4_Rules.txt"), "0000##000000", true)
  		); 
  
  
