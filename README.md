@@ -19,6 +19,7 @@ This project implements the **CYK (Cocke–Younger–Kasami)** algorithm in Java
   - Grammar input validation
   - CYK algorithm implementation
 - `TestCYK.java` – Runs automated tests using a set of hardcoded grammar cases
+- `Q1_Rules.txt` through `Q4_Rules.txt` – CNF grammar definitions for each test question
 - `REPORT.md` – Description of the algorithm, test results, and analysis
 - `README.md` – This file
 
@@ -26,6 +27,14 @@ This project implements the **CYK (Cocke–Younger–Kasami)** algorithm in Java
 
 ## How to Run
 
-### Compile the Java files:
-```bash
+- Compile the Java files:
 javac CYK.java TestCYK.java
+
+- Run the main program manually: (optional)
+java CYK
+
+- Run all automated test cases
+java TestCYK
+
+## Group Members:  Joshua Abreu, Jake Burleski, Collin Gebauer, Michael Levitskiy
+
